@@ -1,118 +1,77 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {LogBox} from 'react-native';
+import React, {useEffect} from 'react';
+import {fcmService} from './src/notifications/FCMService';
+import {localNotificationService} from './src/notifications/LocalNotificationService';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/HomeScreen';
+import {store} from './src/store/store';
+import {Provider} from 'react-redux';
+import Registration from './src/screens/Registration';
+import Login from './src/screens/Login';
+import Survey from './src/screens/Survey';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Stack = createNativeStackNavigator();
+LogBox.ignoreAllLogs();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  useEffect(() => {
+    setupNotification();
+  }, []);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const setupNotification = async () => {
+    let userToken = '';
+    if (!userToken) {
+      try {
+        fcmService.register(
+          (token: any) => onRegister(token),
+          (notify: any) => onNotification(notify),
+          () => onOpenNotification(),
+        );
+        localNotificationService.configure((notify: any) =>
+          onOpenNotification(),
+        );
+      } catch (error) {}
+    }
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+  const onRegister = async (token: any) => {
+    console.log('@@@ FCM Registeration Token ==========', token);
+  };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  const onNotification = (notify: any) => {
+    let uniquedNotifId = Math.floor(Math.random() * 1000 + 1);
+    const options = {
+      soundName: 'default',
+      playSound: true,
+    };
+    localNotificationService.showNotification(
+      uniquedNotifId,
+      notify.title,
+      notify.message,
+      notify,
+      options,
+    );
+  };
+
+  const onOpenNotification = () => {};
+
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="Survey">
+          <Stack.Screen name="Registration" component={Registration} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="Lgin" component={Login} />
+          <Stack.Screen name="Survey" component={Survey} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
+};
 
 export default App;

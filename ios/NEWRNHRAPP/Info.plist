@@ -35,6 +35,40 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>fonts/Roboto-Black.ttf</string>
+		<string>fonts/Roboto-BlackItalic.ttf</string>
+	    <string>fonts/Roboto-Bold.ttf</string>
+		<string>fonts/Roboto-BoldItalic.ttf</string>
+	    <string>fonts/Roboto-Italic.ttf</string>
+	    <string>fonts/Roboto-Light.ttf</string>
+	    <string>fonts/Roboto-LightItalic.ttf</string>
+		<string>fonts/Roboto-LightItalic.ttf</string>
+	    <string>fonts/Roboto-Medium.ttf</string>
+	    <string>fonts/Roboto-MediumItalic.ttf</string>
+	    <string>fonts/Roboto-Regular.ttf</string>
+	    <string>fonts/Roboto-Thin.ttf</string>
+	    <string>fonts/Roboto-ThinItalic.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
+		<string>Geometos.ttf</string>
+		<string>VAG-Rounded-Bold.ttf</string>
+		<string>VAGRounded-Black.ttf</string>
+		<string>VAGRoundedStd-Black.ttf</string>
+		<string>VAGRoundedStd-Light.ttf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
